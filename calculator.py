@@ -1,17 +1,16 @@
-# id решения в Яндекс.Контесте 86061966
+# id решения в Яндекс.Контесте 86147575
 
 class Stack:
     def __init__(self):
-        self.data = []
+        self.__data = []
 
     def push(self, element):
-        self.data.append(element)
+        self.__data.append(element)
 
     def pop(self):
-        if len(self.data) == 0:
-            return 'error'
-        else:
-            return self.data.pop()
+        if len(self.__data) == 0:
+            return IndexError
+        return self.__data.pop()
 
 
 def calculate(input_string):
@@ -24,7 +23,7 @@ def calculate(input_string):
 
     expression = Stack()
     for val in input_string:
-        if val not in ['+', '-', '*', '/']:
+        if val not in dictionary.keys():
             expression.push(int(val))
         else:
             expression.push(dictionary[val](expression.pop(), expression.pop()))
@@ -32,4 +31,5 @@ def calculate(input_string):
     return expression.pop()
 
 
-print(calculate(input().split()))
+if __name__ == '__main__':
+    print(calculate(input().split()))
