@@ -1,4 +1,14 @@
-# id решения в Яндекс.Контесте 86165874
+# id решения в Яндекс.Контесте 86174741
+
+class OverflowList(Exception):
+    """Нет места для добавления элемента в список, он заполнен на всю длину"""
+    pass
+
+
+class EmptyList(Exception):
+    """Нечего извлекать из списка, он не содержит элементов"""
+    pass
+
 
 class MyQueue:
 
@@ -20,35 +30,35 @@ class MyQueue:
 
     def push_back(self, x):
         if self.check_size():
-            raise OverflowError
+            raise OverflowList
         self.__queue[self.__tail] = x
         self.__tail = self.calculation_index(self.__tail+1)
         self.__size += 1
 
     def pop_front(self):
         if self.check_empty():
-            raise IndexError
+            raise EmptyList
         x = self.__queue[self.__head]
         self.__queue[self.__head] = None
         self.__head = self.calculation_index(self.__head+1)
         self.__size -= 1
-        print(x)
+        return x
 
     def push_front(self, x):
         if self.check_size():
-            raise OverflowError
+            raise OverflowList
         self.__queue[self.__head - 1] = x
         self.__head = self.calculation_index(self.__head-1)
         self.__size += 1
 
     def pop_back(self):
         if self.check_empty():
-            raise IndexError
+            raise EmptyList
         x = self.__queue[self.__tail - 1]
         self.__queue[self.__tail - 1] = None
         self.__tail = self.calculation_index(self.__tail-1)
         self.__size -= 1
-        print(x)
+        return x
 
 
 if __name__ == '__main__':
@@ -60,8 +70,6 @@ if __name__ == '__main__':
         command, *args = commands.split()
         action = getattr(MyQueue, command)
         try:
-            action(queue) if not args else action(queue, args[0])
-        except OverflowError:
-            print('error')
-        except IndexError:
+            print(action(queue)) if not args else action(queue, args[0])
+        except (OverflowList, EmptyList):
             print('error')
